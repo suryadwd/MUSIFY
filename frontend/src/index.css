@@ -1,2 +1,23 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #b0b0b0;
+  border-radius: 4px;
+}
+
+/* Hide the scrollbar completely */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* For IE and Edge */
+  scrollbar-width: none; /* For Firefox */
+}
+

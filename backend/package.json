@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon App.js"
+    "dev": "nodemon App.js",
+    "hard:hardSong": "node hard/hardSong.js",
+    "hard:hardAlbum": "node hard/hardAlbum.js"
   },
   "keywords": [],
   "author": "",
