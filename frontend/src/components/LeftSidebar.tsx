@@ -2,10 +2,20 @@ import { SignedIn } from "@clerk/clerk-react";
 import { HomeIcon, Library, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import PlaylistSkeleton from "../Skeletons/PlaylistSkeleton";
+import { useEffect } from "react";
+import { useMusicStore } from "../stores/useMusicStore";
 
 const LeftSidebar = () => {
+  
+  const {songs ,albums, fetchAlbums, isLoading} = useMusicStore();
+  console.log(albums)
+  console.log(isLoading)
+  useEffect(() => {
+    fetchAlbums();
+  },[fetchAlbums])
 
-  const isLoading = !true
+  console.log(albums)
+  console.log(isLoading)
 
   return (
     <div className="h-full flex flex-col mt-5 gap-3">
@@ -36,29 +46,26 @@ const LeftSidebar = () => {
         </div>
 
         <div className="card  shadow-lg no-scrollbar  max-h-120  overflow-y-scroll">
-          
-          {
-            isLoading ? (<PlaylistSkeleton/>) : (
-              <div className="card-body flex flex-col gap-7">
-              <h2 className="card-title">Scrollable Area</h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Pellentesque in dui eu sem laoreet scelerisque at nec odio. Nullam
-                id ligula sit amet ligula malesuada interdum.
-              </p>
-              <p>More content...</p>
-              <p>Even more content...</p>
-              <p>Keep scrolling...</p>
-              <p>Almost there...</p>
-              <p>Almost there...</p>
-              <p>Almost there...</p>
-              <p>Almost there...</p>
-              <p>Done!</p>
-            </div>
-            )
-          }
-          
-        
+          {isLoading ? (
+            <PlaylistSkeleton />
+          ) : (
+            albums.map((item:any) => {
+              return (
+                <Link to={`/album/${item._id}`} key={item._id}
+                className="p-3 hover:bg-zinc-900/50 rounded-md flex items-center gap-3 group cursor-pointer"
+                >
+            
+                <img src={item.imageUrl} alt="PLaylist img" className="size-12 rounded-md object-cover"/>
+            
+                <div className="flex-1 min-w-0 hidden md:block">
+                <p className="font-medium">{item.title}</p>
+                <p className="text-sm text-zinc-400"> Album : {item.artist} </p>
+                </div>
+            
+                </Link>
+              );
+            })
+          )}
         </div>
       </div>
     </div>
@@ -66,6 +73,3 @@ const LeftSidebar = () => {
 };
 
 export default LeftSidebar;
-
-
-// 3 7
