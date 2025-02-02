@@ -11,6 +11,7 @@ import authRoutes from "./routes/auth.route.js";
 import songRoutes from "./routes/song.route.js";
 import albumRoutes from "./routes/album.route.js";
 import statsRoutes from "./routes/stat.route.js";
+import cors from "cors";
 
 // sab chal raha
 
@@ -19,7 +20,10 @@ import path from "path";
 
 const __dirname = path.resolve();
 const app = express();
-
+app.use(cors({
+  origin:"http://localhost:3000",
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(clerkMiddleware());
