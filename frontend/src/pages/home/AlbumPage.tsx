@@ -93,7 +93,7 @@ const AlbumPage = () => {
 								<div className='space-y-2 py-4'>
 									{currentAlbum?.songs.map((song, index) => {
 									{
-										console.log(song.imageUrl)
+									
 									}
 										return (
 											<div

@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom"
 import LeftSidebar from "../components/LeftSidebar"
+import Friends from "../components/Friends"
 
 const MainLayout = () => {
 
@@ -10,7 +11,7 @@ const MainLayout = () => {
       
       <div className="  w-[20%] h-[100%]"> <LeftSidebar /> </div>
       <div className="  w-[60%] h-[100%]"><Outlet /></div>
-      <div className="  border-2 w-[20%] h-[100%]">kr</div>
+      <div className="  border-2 w-[20%] h-[100%]"><Friends/></div>
 
     </div>
   )
