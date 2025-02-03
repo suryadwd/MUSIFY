@@ -8,14 +8,11 @@ import { useMusicStore } from "../stores/useMusicStore";
 const LeftSidebar = () => {
   
   const {songs ,albums, fetchAlbums, isLoading} = useMusicStore();
-  console.log(albums)
-  console.log(isLoading)
+
   useEffect(() => {
     fetchAlbums();
   },[fetchAlbums])
 
-  console.log(albums)
-  console.log(isLoading)
 
   return (
     <div className="h-full flex flex-col mt-5 gap-3">
