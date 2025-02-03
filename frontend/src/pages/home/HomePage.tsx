@@ -23,14 +23,15 @@ const HomePage = () => {
     <div className="rounded-md overflow-hidden">
       <Navbar />
 
-      <div className="card  shadow-lg no-scrollbar  max-h-120  overflow-y-scroll">
+      <div className="card  shadow-lg no-scrollbar  max-h-149  overflow-y-scroll">
          <div className="p-4 sm:p-6">
           <h1 className="text-2xl font-bold mb-6 sm:text-3xl">Good afternoon</h1>
       <FeatureSect />
          </div>
 
         <div className="space-y-8">
-          <MidSec />
+          <MidSec title="Made for you" songs={madeForYouSongs} isLoading={isLoading} />
+          <MidSec title="Trending" songs={trendingSongs} isLoading={isLoading} />
         </div>
 
         </div>
