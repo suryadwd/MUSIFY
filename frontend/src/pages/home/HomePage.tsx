@@ -3,11 +3,15 @@ import Navbar from "../../components/Navbar"
 import { useMusicStore } from "../../stores/useMusicStore"
 import FeatureSect from "../../components/FeatureSect"
 import MidSec from "../../components/MidSec"
+import { usePlayerStore } from "../../stores/usePlayer"
 
 
 const HomePage = () => {
 
-  const {fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, isLoading, madeForYouSongs, trendingSongs} = useMusicStore()
+  const {fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, isLoading, madeForYouSongs, featureSongs,trendingSongs} = useMusicStore()
+
+  const { initializeQueue } = usePlayerStore();
+
 
   useEffect(() => {
     fetchFeaturedSongs();
@@ -15,7 +19,12 @@ const HomePage = () => {
     fetchTrendingSongs();
   },[fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs]) 
 
-  
+  useEffect(() => {
+    if(madeForYouSongs.length>0 && trendingSongs.length > 0 && featureSongs.length > 0) {
+      const totalSongs = [...madeForYouSongs, ...trendingSongs, ...featureSongs];
+      initializeQueue(totalSongs);
+    }
+  },[initializeQueue, madeForYouSongs, featureSongs, trendingSongs])  
   
 
   return (
@@ -42,3 +51,6 @@ const HomePage = () => {
 }
 
 export default HomePage
+
+
+// 5 38

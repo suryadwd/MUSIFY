@@ -41,3 +41,11 @@ export interface User {
 	fullName: string;
 	imageUrl: string;
 }
+
+
+export interface Stats{
+	totalSongs: number;
+	totalAlbums: number;
+	totalUsers: number;
+	totalArtists: number;
+}

@@ -5,6 +5,7 @@ import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react"
 import MainLayout from "./layout/MainLayout"
 import ChatPage from "./pages/home/ChatPage"
 import AlbumPage from "./pages/home/AlbumPage"
+import AdminPage from "./pages/admin/AdminPage"
 
 const App = () => {
 
@@ -21,6 +22,8 @@ const App = () => {
       <Route path="/" element={<HomePage/>} />
       <Route path="/sso-callback" element={<AuthenticateWithRedirectCallback signUpForceRedirectUrl={"/auth-callback"} />} />
       <Route path="/auth-callback" element={<AuthCallPage/>} />
+      <Route path="/admin" element={<AdminPage/>} />
+
       </Routes>
 
     </>
