@@ -7,7 +7,7 @@ import MidSec from "../../components/MidSec"
 
 const HomePage = () => {
 
-  const {fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, isLoading, featureSongs, madeForYouSongs, trendingSongs} = useMusicStore()
+  const {fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, isLoading, madeForYouSongs, trendingSongs} = useMusicStore()
 
   useEffect(() => {
     fetchFeaturedSongs();
