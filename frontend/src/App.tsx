@@ -6,7 +6,7 @@ import MainLayout from "./layout/MainLayout"
 import ChatPage from "./pages/home/ChatPage"
 import AlbumPage from "./pages/home/AlbumPage"
 import AdminPage from "./pages/admin/AdminPage"
-
+import { Toaster } from "react-hot-toast"
 const App = () => {
 
   return (
@@ -25,7 +25,7 @@ const App = () => {
       <Route path="/admin" element={<AdminPage/>} />
 
       </Routes>
-
+      <Toaster/>
     </>
   )
 }

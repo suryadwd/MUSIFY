@@ -13,7 +13,7 @@ try {
   const uniqueArtist = await Song.aggregate([
     {
       $unionWith: {
-        collection: "albums",
+        coll: "albums",
         pipeline: []
       }
     },

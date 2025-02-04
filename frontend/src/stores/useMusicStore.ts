@@ -1,6 +1,7 @@
 import {create} from "zustand"
 import { axiosInstance } from "../lib/axios"
 import { Album, Song, Stats } from "../types"
+import toast from "react-hot-toast"
 
 interface MusicStore{
   songs: Song[],
@@ -25,6 +26,8 @@ interface MusicStore{
   fetchSongs: () => Promise<void>
   fetchStats: () => Promise<void>
 
+  handledeleteSong: (id: string) => Promise<void>
+  handledeleteAlbum: (id: string) => Promise<void>
 }
 
 export const useMusicStore = create<MusicStore>((set) => ({
@@ -122,7 +125,7 @@ export const useMusicStore = create<MusicStore>((set) => ({
     set({isLoading: true})
 
     try {
-      const res = await axiosInstance.get("/songs")
+      const res = await axiosInstance.post("/songs")
       set({songs: res.data})
     } catch (error) {
       console.log(error)
@@ -135,10 +138,48 @@ export const useMusicStore = create<MusicStore>((set) => ({
   fetchStats: async () => {
     set({isLoading: true})
     try {
-      const res = await axiosInstance.get("/stats")
+      const res = await axiosInstance.post("/stats")
+      console.log(res.data)
       set({stats: res.data})
     } catch (error) {
       console.log(error)
     }
+  },
+
+  handledeleteSong: async (id: string) => {
+    set({isLoading: true})
+    try {
+      await axiosInstance.delete(`/admin/songs/${id}`)
+      set(state =>({
+        songs: state.songs.filter(song => song._id !== id)
+      }))
+      toast.success("Song deleted successfully")
+    } catch (error) {
+      console.log(error)
+      toast.error("Something went wrong")
+    }finally{
+      set({isLoading: false})
+    }
+  },
+  handledeleteAlbum: async (id: string) => {
+    set({isLoading: true})
+    try {
+      await axiosInstance.delete(`/admin/albums/${id}`)
+      
+      set(state =>({
+        albums: state.albums.filter(album => album._id !== id),
+        songs: state.songs.map((song) => song.album === state.albums.find((a) => a._id === id)?.title ? { ...song, album: null } : song)
+      }))
+
+      toast.success("Album deleted successfully")
+    } catch (error) {
+      console.log(error)
+      toast.error("Something went wrong")
+    }finally{
+      set({isLoading: false})
+    }
   }
+
 }))
+
+// 6 : 16
