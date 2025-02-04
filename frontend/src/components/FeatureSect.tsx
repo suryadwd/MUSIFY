@@ -1,5 +1,7 @@
+
 import FeatureSkelton from "../Skeletons/FeatureSkelton";
 import { useMusicStore } from "../stores/useMusicStore";
+import PlaySongsHover from "./PlaySongsHover";
 
 const FeatureSect = () => {
 
@@ -19,7 +21,9 @@ const FeatureSect = () => {
             <p className="font-medium truncate">{item.title}</p>
             <p className="text-sm to-zinc-500 truncate">{item.artist}</p>
            </div>
+           <PlaySongsHover item = {item}/>
           </div>
+
         ))
       }
       

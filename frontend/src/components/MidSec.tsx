@@ -1,7 +1,8 @@
 
 import { Song } from "../types";
 import FeatureSect from "./FeatureSect";
-import { PlayCircleIcon } from "lucide-react";
+import PlaySongsHover from "./PlaySongsHover";
+
 
 type MidSecProp = {
 	title: string;
@@ -35,7 +36,7 @@ const MidSec = ({ songs, title, isLoading }: MidSecProp) => {
 									group-hover:scale-105'
 								/>
 							</div>
-							<PlayCircleIcon  />
+							<PlaySongsHover item = {item}  />
 						</div>
 						<h3 className='font-medium mb-2 truncate'>{item.title}</h3>
 						<p className='text-sm text-zinc-400 truncate'>{item.artist}</p>
