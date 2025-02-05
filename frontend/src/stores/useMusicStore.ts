@@ -40,6 +40,7 @@ export const useMusicStore = create<MusicStore>((set) => ({
   featureSongs: [],
   madeForYouSongs: [],
   trendingSongs: [],
+
   stats:{
     totalSongs:0,
     totalAlbums:0,
@@ -53,8 +54,8 @@ export const useMusicStore = create<MusicStore>((set) => ({
 
     try {
       const res = await axiosInstance.get("/albums")
-      set({albums: res.data})
       
+      set({albums: res.data})
     } catch (error) {
       console.log("error in albumfetch in zustand useMusic",error)
     }
@@ -139,7 +140,7 @@ export const useMusicStore = create<MusicStore>((set) => ({
     set({isLoading: true})
     try {
       const res = await axiosInstance.post("/stats")
-      console.log(res.data)
+      
       set({stats: res.data})
     } catch (error) {
       console.log(error)

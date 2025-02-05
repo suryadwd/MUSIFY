@@ -1,38 +1,39 @@
-import {Song} from "../model/song.model.js"
-import {Album} from "../model/album.model.js"
-import {User} from "../model/user.model.js"
+import { Album } from "../model/album.model.js";
+import { Song } from "../model/song.model.js";
+import { User } from "../model/user.model.js";
 
 export const getStats = async (req, res, next) => {
-  
-try {
-  
-  const totalSongs = await Song.countDocuments({});
-  const totalAlbums = await Album.countDocuments({});
-  const totalUsers = await User.countDocuments({});
+	try {
+		const [totalSongs, totalAlbums, totalUsers, uniqueArtists] = await Promise.all([
+			Song.countDocuments(),
+			Album.countDocuments(),
+			User.countDocuments(),
 
-  const uniqueArtist = await Song.aggregate([
-    {
-      $unionWith: {
-        coll: "albums",
-        pipeline: []
-      }
-    },
-    {
-      $group: {
-        _id: "$artist"
-      }
-    },    
-    {                      
-      $count: "count" 
-    }
-  ])
+			Song.aggregate([
+				{
+					$unionWith: {
+						coll: "albums",
+						pipeline: [],
+					},
+				},
+				{
+					$group: {
+						_id: "$artist",
+					},
+				},
+				{
+					$count: "count",
+				},
+			]),
+		]);
 
-
-  res.status(200).json({totalSongs, totalAlbums, totalUsers, totalArtists:uniqueArtist[0]?.$count || 0})
-
-} catch (error) {
-  console.log("error in statics route", error)
-  next(error) 
-}
-
-}
+		res.status(200).json({
+			totalAlbums,
+			totalSongs,
+			totalUsers,
+			totalArtists: uniqueArtists[0]?.count || 0,
+		});
+	} catch (error) {
+		next(error);
+	}
+};

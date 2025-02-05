@@ -1,7 +1,16 @@
 import { Music } from "lucide-react";
 import SongTable from "./SongTable";
+import { useState } from "react";
+import AddSong from "./AddSong";
 
 const SongContent = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleAddButton = () => {
+    setOpen((x) => !x);
+    console.log(open);
+  };
+
   return (
     <div className="rounded-lg shadow-md text-white">
       <div className="">
@@ -14,17 +23,21 @@ const SongContent = () => {
             <p className="text-sm text-white">Manage your music tracks</p>
           </div>
 
-            <button className="px-2 py-1 text-xs cursor-pointer bg-green-500">+ Add Song </button>
-
-
-          {/* <AddSongDialog /> */}
+          {open ? (
+            <button
+              className="px-2 py-1 text-xs cursor-pointer bg-green-500"
+              onClick={handleAddButton}
+            >
+              + Add Song{" "}
+            </button>
+          ) : (
+            <AddSong />
+          )}
         </div>
-            <SongTable />
+        <SongTable />
       </div>
-      
     </div>
   );
 };
 
-
-export default SongContent
+export default SongContent;
