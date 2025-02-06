@@ -13,10 +13,18 @@ import albumRoutes from "./routes/album.route.js";
 import statsRoutes from "./routes/stat.route.js";
 import cors from "cors";
 
-// sab chal raha
+//socket
+
+const httpServer = createServer(app);
+initializeSocket(httpServer)
+
+
+// addition
 
 import fileUpload from "express-fileupload";
 import path from "path";
+import { create } from "domain";
+import { createServer } from "http";
 
 const __dirname = path.resolve();
 const app = express();
@@ -56,7 +64,9 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(process.env.PORT, () => {
+//we will change the app to httpServer
+
+httpServer.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
   dbConnect();
 });
