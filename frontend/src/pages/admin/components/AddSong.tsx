@@ -1,23 +1,23 @@
 import { useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Plus, Upload } from "lucide-react";
-// import { useMusicStore } from "../../../stores/useMusicStore";
+import { useMusicStore } from "../../../stores/useMusicStore";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../../../lib/axios";
 
 const AddSong = () => {
-  // const { albums } = useMusicStore();
+  const { albums } = useMusicStore();
 
   // Song Dialog is open or not
   const [open, setOpen] = useState(false);
 
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const [newSong, setNewSong] = useState({
+  const [newSong, setNewSong] = useState<NewSong>({
     title: "",
     artist: "",
     album: "",
-    duration: 0,
+    duration: "0",
   });
 
   const [files, setFiles] = useState<{
@@ -31,41 +31,48 @@ const AddSong = () => {
   const audioInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit =async () => {
-    if (!newSong.title || !files.audio || !files.image) {
-      return toast.error("Please fill in all fields");
-    }
-
-    // setLoading(true)
+  const handleSubmit = async () => {
+    setLoading(true);
 
     try {
-      
-      const formData = new FormData(); 
+      if (!newSong.title || !files.audio || !files.image) {
+        return toast.error("Please fill in all fields");
+      }
+
+      const formData = new FormData();
 
       formData.append("title", newSong.title);
       formData.append("artist", newSong.artist);
       formData.append("duration", newSong.duration.toString());
+
+      if (newSong.album && newSong.album !== "none") {
+				formData.append("albumId", newSong.album);
+			}
+
       formData.append("audioFile", files.audio);
       formData.append("imageFile", files.image);
-      
-      await axiosInstance.post("/admin/songs",formData, {headers:{"Content-Type":"multipart/form-data"}})
+
+      await axiosInstance.post("/admin/songs", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       setNewSong({
-        title:"",
-        artist:"",
-        album:"",
-        duration:0
-      })
+        title: "",
+        artist: "",
+        album: "",
+        duration: 0,
+      });
 
       setFiles({
         audio: null,
-        image:null
-      })
+        image: null,
+      });
 
-      toast.success("Song added successfully")
-
+      toast.success("Song added successfully");
     } catch (error) {
-      console.log(error)
+      console.log(error);
+    } finally{
+      setLoading(false)
     }
 
     setOpen(false);
@@ -109,8 +116,6 @@ const AddSong = () => {
 
               {/* Upload Section */}
               <div className="space-y-4 py-4">
-              
-
                 {/* Image Upload */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
@@ -159,8 +164,8 @@ const AddSong = () => {
                   </div>
                 </div>
 
-                  {/* Audio Upload */}
-                  <div>
+                {/* Audio Upload */}
+                <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Audio File
                   </label>
@@ -194,7 +199,9 @@ const AddSong = () => {
                     type="text"
                     className="w-full mt-2 border px-3 py-2 text-sm"
                     value={newSong.title}
-                    onChange={(e) => setNewSong({ ...newSong, title: e.target.value })}
+                    onChange={(e) =>
+                      setNewSong({ ...newSong, title: e.target.value })
+                    }
                   />
                 </div>
 
@@ -207,7 +214,7 @@ const AddSong = () => {
                     className="w-full mt-2 border px-3 py-2 text-sm"
                     value={newSong.artist}
                     onChange={(e) =>
-                      setNewSong((prev) => ({
+                      setNewSong((prev: any) => ({
                         ...prev,
                         artist: e.target.value,
                       }))
@@ -225,12 +232,32 @@ const AddSong = () => {
                     className="w-full mt-2 border px-3 py-2 text-sm"
                     value={newSong.duration}
                     onChange={(e) =>
-                      setNewSong((prev) => ({
+                      setNewSong((prev:any) => ({
                         ...prev,
                         duration: parseInt(e.target.value),
                       }))
                     }
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Album (Optional)
+                  </label>
+                  <select
+                    value={newSong.album}
+                    onChange={(e) =>
+                      setNewSong({ ...newSong, album: e.target.value })
+                    }
+                    className="w-full mt-2 border px-3 py-2 text-sm"
+                  >
+                    <option value="none">No Album (Single)</option>
+                    {albums.map((album) => (
+                      <option key={album._id} value={album._id}>
+                        {album.title}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -247,7 +274,7 @@ const AddSong = () => {
                   className="rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-500"
                   onClick={handleSubmit}
                 >
-                  Save
+                  {loading ? "Adding..." : "Save"}  
                 </button>
               </div>
             </Dialog.Panel>
