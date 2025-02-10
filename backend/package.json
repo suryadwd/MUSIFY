@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "App.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon App.js",
@@ -21,6 +21,7 @@
     "express": "^4.21.2",
     "express-fileupload": "^1.5.1",
     "mongoose": "^8.9.5",
+    "musicalyy": "file:..",
     "node-cron": "^3.0.3",
     "nodemon": "^3.1.9",
     "socket.io": "^4.8.1"

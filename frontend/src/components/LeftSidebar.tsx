@@ -7,7 +7,7 @@ import { useMusicStore } from "../stores/useMusicStore";
 
 const LeftSidebar = () => {
   
-  const { fetchAlbums, isLoading} = useMusicStore();
+  const {albums, fetchAlbums, isLoading} = useMusicStore();
 
   useEffect(() => {
     fetchAlbums();
