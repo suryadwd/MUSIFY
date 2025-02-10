@@ -42,6 +42,8 @@ const LeftSidebar = () => {
           </div>
         </div>
 
+
+
         <div className="card  shadow-lg no-scrollbar  max-h-120  overflow-y-scroll">
           {isLoading ? (
             <PlaylistSkeleton />
@@ -64,6 +66,9 @@ const LeftSidebar = () => {
             })
           )}
         </div>
+
+
+
       </div>
     </div>
   );

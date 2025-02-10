@@ -7,9 +7,7 @@ const Friends = () => {
   const { users,  fetchUsers } = useChatStore();
   const { user } = useUser();
 
-	// console.log(user)
-	// console.log("*********************")
-	// console.log(users)
+	
 
 	const isPlaying = true
 
@@ -34,6 +32,8 @@ const Friends = () => {
             className="cursor-pointer hover:bg-z/30 p-3 rounded-md transition-colors group"
           >
             <div className="flex items-start gap-3">
+
+              
               <div className="avatar">
                 <div className="w-16 h-16 m-2 rounded-full">
                   <img
@@ -60,12 +60,17 @@ const Friends = () => {
 									}
 
 								</div>
-
               </div>
+
+
+
+
             </div>
           </div>
         ))}
       </div>
+
+
     </div>
   );
 };

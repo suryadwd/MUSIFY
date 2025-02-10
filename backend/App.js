@@ -4,7 +4,8 @@ dotenv.config();
 
 import { dbConnect } from "./config/db.js";
 import { clerkMiddleware } from "@clerk/express";
-
+import { createServer } from "http";
+import { initializeSocket } from "./config/socket.js";
 import userRoutes from "./routes/user.route.js";
 import adminRoutes from "./routes/admin.route.js";
 import authRoutes from "./routes/auth.route.js";
@@ -13,18 +14,9 @@ import albumRoutes from "./routes/album.route.js";
 import statsRoutes from "./routes/stat.route.js";
 import cors from "cors";
 
-//socket
-
-const httpServer = createServer(app);
-initializeSocket(httpServer)
-
-
-// addition
-
 import fileUpload from "express-fileupload";
 import path from "path";
-import { create } from "domain";
-import { createServer } from "http";
+
 
 const __dirname = path.resolve();
 const app = express();
@@ -63,6 +55,15 @@ app.use((err, req, res, next) => {
           : err.message,
     });
 });
+
+//socket
+
+const httpServer = createServer(app);
+initializeSocket(httpServer)
+
+
+// addition
+
 
 //we will change the app to httpServer
 

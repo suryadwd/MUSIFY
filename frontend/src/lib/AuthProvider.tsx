@@ -2,6 +2,8 @@ import { useAuth } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "./axios";
 import { Loader } from "lucide-react";  
+import { useAuthStore } from "../stores/useAuthStore";
+import { useChatStore } from "../stores/useChatStore";
 
 const updateApiToken = (token: string | null) => {
   if (token) axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -9,14 +11,21 @@ const updateApiToken = (token: string | null) => {
 };
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { getToken } = useAuth();
+  const { getToken, userId } = useAuth();
   const [loading, setLoading] = useState(true);
-
+  const { checkAdminStatus } = useAuthStore();
+  const {initSocket, disconnectSocket} = useChatStore();
   useEffect(() => {
     const initAuth = async () => {
       try {
         const token = await getToken();
         updateApiToken(token);
+        if(token){
+          await checkAdminStatus()
+          if(userId){
+            initSocket(userId)
+          }
+        }
       } catch (error) {
         console.log("error in auth provider", error);
       } finally {
@@ -25,7 +34,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     initAuth();
-  }, [getToken]);
+
+    // cleanup
+
+    return () => disconnectSocket() 
+
+  }, [getToken,userId]);
 
   if (loading) {
     return (

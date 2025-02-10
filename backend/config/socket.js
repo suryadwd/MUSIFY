@@ -42,7 +42,7 @@ export const initializeSocket = (server) => {
     socket.on("activity_update", ({userId, activity}) => {
         console.log("activit updated", userId, activity)
         userActivities.set(userId, activity);
-        io.emit("activity_updated", Array.from(userActivities.entries()));
+        io.emit("activity_updated", { userId, activity });
     })
 
     socket.on("send_message", async(data) => {
@@ -90,4 +90,3 @@ export const initializeSocket = (server) => {
 };
 
 
-// 7 10 
