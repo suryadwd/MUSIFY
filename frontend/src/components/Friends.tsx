@@ -4,12 +4,10 @@ import { useUser } from "@clerk/clerk-react";
 import { useEffect } from "react";
 
 const Friends = () => {
-  const { users,  fetchUsers } = useChatStore();
+  const { users, fetchUsers, userActivities, onlineUsers} = useChatStore();
   const { user } = useUser();
 
-	
-
-	const isPlaying = true
+ 
 
   useEffect(() => {
     if (user) fetchUsers();
@@ -26,51 +24,54 @@ const Friends = () => {
       {!user && <LoginPrompt />}
 
       <div className="card  shadow-lg no-scrollbar  max-h-120  overflow-y-scroll">
-        {users.map((item) => (
-          <div
-            key={item._id}
-            className="cursor-pointer hover:bg-z/30 p-3 rounded-md transition-colors group"
-          >
-            <div className="flex items-start gap-3">
+        {users.map((item) => {
 
-              
-              <div className="avatar">
-                <div className="w-16 h-16 m-2 rounded-full">
-                  <img
-                    src={item?.imageUrl}
-                    alt="image"
-                  />
+          const activity = userActivities.get(item.clerkId)
+          const isPlaying = activity && activity !== "Idle"
+
+          return (
+            <div
+              key={item._id}
+              className="cursor-pointer hover:bg-z/30 p-3 rounded-md transition-colors group"
+            >
+              <div className="flex items-start gap-3">
+                <div className="avatar">
+                  <div className="w-16 h-16 m-2 rounded-full">
+                    <img src={item?.imageUrl} alt="image" />
+                    <div className={`absolute bottom-1 right-1 w-3 h-3 rounded-full
+                      ${onlineUsers.has(item.clerkId) ? "bg-green-500" : "bg-zinc-500"}
+                      `}></div>
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-sm">
+                        {item?.fullName}
+                      </span>
+                      {isPlaying && (
+                        <Music className="size-3 text-emerald-400 ml-24 mt-10 shrink-0" />
+                      )}
+                    </div>
+
+                    {isPlaying ? (
+                      <div className="-mt-10 ml-2">
+                        <div className="mt-1 text-sm text-white font-medium truncate">
+                          {activity.replace("Playing","").split("by ")[0]}
+                        </div>
+                        <div className="mt-1 text-sm truncate">
+                          {activity.split("by ")[1]}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="mt-7 ml-2 text-sm  text-zinc-500"></div>
+                    )}
+                  </div>
                 </div>
-
-								<div className="flex-1 min-w-0">
-									<div className="flex items-center gap-2">
-										<span className="font-semibold text-sm">{item?.fullName}</span>
-										{isPlaying && <Music className="size-3 text-emerald-400 ml-24 mt-10 shrink-0"/>}
-									</div>
-
-									{
-										isPlaying ? (
-											<div className="-mt-10 ml-2">
-												<div className="mt-1 text-sm text-white font-medium truncate">Cardinage</div>
-												<div className="mt-1 text-sm truncate">by Tailor Swift</div>
-											</div>
-										) : (
-											<div className="mt-1 text-sm text-zinc-500">Idle</div>
-										)
-									}
-
-								</div>
               </div>
-
-
-
-
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
-
-
     </div>
   );
 };
