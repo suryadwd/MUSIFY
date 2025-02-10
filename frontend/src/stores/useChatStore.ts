@@ -26,7 +26,7 @@ interface ChatStore{
 
 }
 
-const baseURL = "http://localhost:7000"
+const baseURL = import.meta.env.MODE === "development" ? "http://localhost:7000" : "/"
 const socket = io(baseURL,{
   autoConnect: false,
   withCredentials: true

@@ -1,4 +1,11 @@
 import { useRef, useState } from "react";
+
+type NewSong = {
+  title: string;
+  artist: string;
+  album: string;
+  duration: number;
+};
 import { Dialog, Transition } from "@headlessui/react";
 import { Plus, Upload } from "lucide-react";
 import { useMusicStore } from "../../../stores/useMusicStore";
@@ -17,7 +24,7 @@ const AddSong = () => {
     title: "",
     artist: "",
     album: "",
-    duration: "0",
+    duration:0,
   });
 
   const [files, setFiles] = useState<{

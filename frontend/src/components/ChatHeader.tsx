@@ -16,7 +16,7 @@ const ChatHeader = () => {
             <div className="flex-1 min-w-0 ml-2  ">
               {selectedUser?.firstName}
               <p className="text-xs">
-                {onlineUsers.has(selectedUser?.clerkId) ? "Online" : "Offline"}
+                {selectedUser?.clerkId && onlineUsers.has(selectedUser.clerkId) ? "Online" : "Offline"}
               </p>
             </div>
           </div>

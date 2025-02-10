@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon App.js",
+    "start": "node App.js",
     "hard:hardSong": "node hard/hardSong.js",
     "hard:hardAlbum": "node hard/hardAlbum.js"
   },
@@ -20,7 +21,8 @@
     "express": "^4.21.2",
     "express-fileupload": "^1.5.1",
     "mongoose": "^8.9.5",
+    "node-cron": "^3.0.3",
     "nodemon": "^3.1.9",
     "socket.io": "^4.8.1"
-  }  
+  }
 }

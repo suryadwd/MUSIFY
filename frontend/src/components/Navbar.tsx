@@ -2,14 +2,15 @@ import {  SignedOut, UserButton } from "@clerk/clerk-react"
 import { LayoutDashboardIcon } from "lucide-react"
 import { Link } from "react-router-dom"
 import SignInOAuthButtons from "./SignInOAuthButtons "
+import { useAuthStore } from "../stores/useAuthStore"
 // import { useAuthStore } from "../stores/useAuthStore"
 
 const Navbar = () => {
 
 
-  // const {isAdmin} = useAuthStore()
+  const {isAdmin} = useAuthStore()
 
-  const isAdmin = true
+ 
 
 
   return (
