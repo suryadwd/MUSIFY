@@ -1,6 +1,6 @@
 const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
 const path = require('path');
-
+//random
 function createWindow() {
   const win = new BrowserWindow({
     width: 1280,
